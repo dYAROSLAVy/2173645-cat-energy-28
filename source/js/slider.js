@@ -5,41 +5,61 @@ const control = slider.querySelector('.results__slider-control');
 
 let isActive = false;
 
-const beforeAfterSlider = (x) => {
+const sliderChange = (x) => {
   let shift = Math.max(0, Math.min(x, slider.offsetWidth));
   before.style.clipPath = `inset(0 ${slider.offsetWidth - shift}px 0 0)`;
   after.style.clipPath = `inset(0 0 0 ${shift}px)`;
   control.style.left = `${shift}px`;
 };
 
-const pauseEvents = (evt) => {
-  evt.stopPropagation();
-  evt.preventDefault();
-  return false;
+const initSliderChange = (x) => {
+  x -= slider.getBoundingClientRect().left;
+
+  sliderChange(x);
 };
 
-const onBodyMouseMove = (evt) => {
+const onSliderMouseMove = (evt) => {
   if (!isActive) {
     return;
   }
 
   let x = evt.pageX;
 
-  x -= slider.getBoundingClientRect().left;
+  initSliderChange(x);
+};
 
-  beforeAfterSlider(x);
+const onSliderTouchMove = (evt) => {
+  if (!isActive) {
+    return;
+  }
 
-  pauseEvents(evt);
+  let x;
+
+  for (let i = 0; i < evt.changedTouches.length; i++) {
+    x = evt.changedTouches[i].pageX;
+  }
+
+  initSliderChange(x);
+};
+
+const desktopSlider = () => {
+  control.addEventListener('mousedown', () => isActive = true);
+  control.addEventListener('mouseup', () => isActive = false);
+  slider.addEventListener('selectstart', (evt) => evt.preventDefault())
+  slider.addEventListener('mouseleave', () => isActive = false);
+  slider.addEventListener('mousemove', (evt) => onSliderMouseMove(evt));
+};
+
+const mobileSlider = () => {
+  control.addEventListener('touchstart', () => isActive = true);
+  control.addEventListener('touchend', () => isActive = false);
+  control.addEventListener('touchcancel', () => isActive = false);
+  control.addEventListener('touchmove', (evt) => onSliderTouchMove(evt));
 };
 
 const initSlider = () => {
-  slider.addEventListener('mousedown', () => isActive = true);
-
-  document.body.addEventListener('mouseup', () => isActive = false);
-
-  document.body.addEventListener('mouseleave', () => isActive = false);
-
-  document.body.addEventListener('mousemove', (evt) => onBodyMouseMove(evt));
+  desktopSlider();
+  mobileSlider();
 };
 
 export { initSlider };

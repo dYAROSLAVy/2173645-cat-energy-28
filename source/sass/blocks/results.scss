@@ -194,14 +194,26 @@
   position: absolute;
 
   &--before {
-    clip-path: inset(0 280px 0 0);
+    clip-path: inset(0 140px 0 0);
     z-index: 2;
+
+    @include vp-tab {
+      clip-path: inset(0 280px 0 0);
+    }
   }
 
   &--after {
-    clip-path: inset(0 0 0 280px);
+    clip-path: inset(0 0 0 140px);
     z-index: 3;
+
+    @include vp-tab {
+      clip-path: inset(0 0 0 280px);
+    }
   }
+}
+
+.results__slider-img img {
+  pointer-events: none;
 }
 
 .results__slider-control {
