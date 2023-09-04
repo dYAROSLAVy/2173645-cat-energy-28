@@ -193,8 +193,14 @@
 .results__slider-img {
   position: absolute;
 
-  &--overlay {
+  &--before {
+    clip-path: inset(0 280px 0 0);
     z-index: 2;
+  }
+
+  &--after {
+    clip-path: inset(0 0 0 280px);
+    z-index: 3;
   }
 }
 
@@ -209,6 +215,7 @@
   background: none;
   border: 0;
   color: $color-dim-gray;
+  cursor: ew-resize;
 
   &:hover {
     color: $color-apple;
@@ -244,14 +251,4 @@
   top: 0;
   right: 0;
   z-index: 5;
-}
-
-.results__img {
-  &--primary {
-    clip-path: inset(0 50% 0 0);
-  }
-
-  &--secondary {
-    clip-path: inset(0 0 0 50%);
-  }
 }
