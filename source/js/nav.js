@@ -15,7 +15,6 @@ const onNavToggleClick = () => changeNavState();
 
 const initNav = () => {
   nav.classList.remove('nav--nojs');
-
   navToggle.addEventListener('click', onNavToggleClick);
 };
 

@@ -1,7 +1,7 @@
 const slider = document.querySelector('.results__slider');
-const before = slider.querySelector('.results__slider-img--before');
-const after = slider.querySelector('.results__slider-img--after');
-const control = slider.querySelector('.results__slider-control');
+const before = document.querySelector('.results__slider-img--before');
+const after = document.querySelector('.results__slider-img--after');
+const control = document.querySelector('.results__slider-control');
 
 let isActive = false;
 
@@ -19,20 +19,12 @@ const initSliderChange = (x) => {
 };
 
 const onSliderMouseMove = (evt) => {
-  if (!isActive) {
-    return;
-  }
-
   let x = evt.pageX;
 
   initSliderChange(x);
 };
 
 const onSliderTouchMove = (evt) => {
-  if (!isActive) {
-    return;
-  }
-
   let x;
 
   for (let i = 0; i < evt.changedTouches.length; i++) {
@@ -43,6 +35,10 @@ const onSliderTouchMove = (evt) => {
 };
 
 const desktopSlider = () => {
+  if(!control) {
+    return;
+  }
+
   control.addEventListener('mousedown', () => isActive = true);
   control.addEventListener('mouseup', () => isActive = false);
   slider.addEventListener('selectstart', (evt) => evt.preventDefault())
@@ -51,6 +47,10 @@ const desktopSlider = () => {
 };
 
 const mobileSlider = () => {
+  if(!control) {
+    return;
+  }
+
   control.addEventListener('touchstart', () => isActive = true);
   control.addEventListener('touchend', () => isActive = false);
   control.addEventListener('touchcancel', () => isActive = false);
@@ -58,8 +58,8 @@ const mobileSlider = () => {
 };
 
 const initSlider = () => {
-  desktopSlider();
   mobileSlider();
+  desktopSlider();
 };
 
 export { initSlider };
