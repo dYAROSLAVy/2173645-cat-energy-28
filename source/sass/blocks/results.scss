@@ -192,6 +192,8 @@
 
 .results__slider-img {
   position: absolute;
+  user-select: none;
+  pointer-events: none;
 
   &--before {
     clip-path: inset(0 140px 0 0);
